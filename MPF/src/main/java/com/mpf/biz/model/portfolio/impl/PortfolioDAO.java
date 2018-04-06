@@ -38,5 +38,9 @@ public class PortfolioDAO {
 		System.out.println(pvo);
 		return mybatis.update("PortfolioDAO.updateMainImage", pvo);
 	}
+
+	public PortfolioVO getPortfolio(PortfolioVO pvo) {
+		return mybatis.selectOne("PortfolioDAO.getPortfolio", pvo);
+	}
 	
 }

@@ -8,4 +8,5 @@ public interface PortfolioService {
 	boolean savePortfolio(PortfolioVO pvo, UserVO uvo);
 	PortfolioVO getPortfolioWithAll(PortfolioVO pvo);
 	boolean setPortfolioImageName(PortfolioVO pvo, String savedName);
+	PortfolioVO getPortfolio(PortfolioVO pvo);
 }

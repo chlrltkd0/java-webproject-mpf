@@ -51,4 +51,10 @@ public class PortfolioServiceImpl implements PortfolioService{
 		result = portfolioDAO.setPortfolioImageName(pvo)==1;
 		return result;
 	}
+
+	@Override
+	public PortfolioVO getPortfolio(PortfolioVO pvo) {
+		pvo = portfolioDAO.getPortfolio(pvo);
+		return pvo;
+	}
 }

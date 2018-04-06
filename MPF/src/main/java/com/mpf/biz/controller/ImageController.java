@@ -65,10 +65,16 @@ public class ImageController {
 			@RequestParam("id")int id, HttpSession session) throws IOException {
 		UserVO uvo = (UserVO)session.getAttribute("user");
 		String realPath = session.getServletContext().getRealPath("/") + "resources\\img\\portfolio\\";
+		
+		PortfolioVO pvo = new PortfolioVO();
+		pvo.setId(id);
+		pvo.setUserId(uvo.getId());
+		
+		String imgName = pService.getPortfolio(pvo).getMainImage();
 
-		if(!uService.getMainPage(uvo).getImgName().equals("default.png")) {
-			File deleteTarget = new File(uploadpfPath, uService.getMainPage(uvo).getImgName());
-			File deleteTarget2 = new File(realPath, uService.getMainPage(uvo).getImgName());
+		if(!imgName.equals("default.png")) {
+			File deleteTarget = new File(uploadpfPath, imgName);
+			File deleteTarget2 = new File(realPath, imgName);
 			if(deleteTarget.exists())
 				deleteTarget.delete();
 			if(deleteTarget2.exists())
@@ -83,9 +89,6 @@ public class ImageController {
 		FileCopyUtils.copy(file.getBytes(), createTarget);
 		FileCopyUtils.copy(file.getBytes(), createTarget2);
 		
-		PortfolioVO pvo = new PortfolioVO();
-		pvo.setId(id);
-		pvo.setUserId(uvo.getId());
 		pService.setPortfolioImageName(pvo, savedName);
 	}
 }

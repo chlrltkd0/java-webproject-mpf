@@ -12,6 +12,12 @@
 		]]>
 	</select>
 	
+	<select id="getPortfolio" parameterType="PortfolioVO" resultMap="PortfolioResultSet">
+		<![CDATA[
+		SELECT * FROM portfolio WHERE id=#{id}
+		]]>
+	</select>
+	
 	<!-- 회원 가입 -->
 	<insert id="insertPortfolio" parameterType="PortfolioVO">
 		<![CDATA[
@@ -63,5 +69,15 @@
 		    <result property="subTitle" column="sub_title"/>
 		    <result property="subContent" column="sub_content"/>
 		</collection>
+	</resultMap>
+	
+	<resultMap id="PortfolioResultSet" type="PortfolioVO">
+		<id property="id" column="p_id"/>
+		<result property="userId" column="user_id"/>
+		<result property="mainTitle" column="main_title"/>
+		<result property="mainImage" column="main_image"/>
+		<result property="mainContent" column="main_content"/>
+		<result property="videoLink" column="video_link"/>
+		<result property="regDatetime" column="reg_datetime"/>
 	</resultMap>
 </mapper>
