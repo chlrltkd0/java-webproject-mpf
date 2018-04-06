@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="UserVO" type="com.mpf.biz.model.user.UserVO" />
+		<typeAlias alias="PageVO" type="com.mpf.biz.model.user.PageVO" />
+		<typeAlias alias="SubImageVO" type="com.mpf.biz.model.portfolio.SubImageVO" />
+		<typeAlias alias="PortfolioVO" type="com.mpf.biz.model.portfolio.PortfolioVO" />
+		<typeAlias alias="PortfolioContentVO" type="com.mpf.biz.model.portfolio.PortfolioContentVO" />
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="mappings/user-mapping.xml" />
+		<mapper resource="mappings/page-mapping.xml" />
+		<mapper resource="mappings/portfolio-mapping.xml" />
+	</mappers>
+</configuration>

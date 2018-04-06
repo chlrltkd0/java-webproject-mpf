@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PortfolioDAO">
+
+	<select id="getPortfolioWithAll" parameterType="PortfolioVO" resultMap="PortfolioWithAllResultSet">
+		<![CDATA[
+		SELECT *, p.id AS p_id, si.id AS si_id, pc.id AS pc_id, si.portfolio_id AS si_portfolio_id, pc.portfolio_id AS pc_portfolio_id 
+			FROM (SELECT * FROM portfolio WHERE id=#{id}) AS p LEFT OUTER JOIN sub_image AS si ON p.id=si.portfolio_id
+				LEFT OUTER JOIN portfolio_content AS pc ON p.id=pc.portfolio_id
+		]]>
+	</select>
+	
+	<!-- 회원 가입 -->
+	<insert id="insertPortfolio" parameterType="PortfolioVO">
+		<![CDATA[
+		INSERT INTO portfolio (id, user_id) values (#{id}, #{userId})
+		]]>
+	</insert>
+	
+	<update id="updatePortfolio" parameterType="PortfolioVO">
+		<![CDATA[
+		UPDATE portfolio SET main_title=#{mainTitle}, main_content=#{mainContent},
+			video_link=#{videoLink} WHERE id=#{id} and user_id=#{userId}
+		]]>
+	</update>
+	
+	<delete id="deletePortfolio" parameterType="PortfolioVO">
+		<![CDATA[
+		DELETE FROM portfolio WHERE id=#{id} and user_id=#{userId}
+		]]>
+	</delete>
+	
+	<select id="genId" resultType="int">
+		<![CDATA[
+		SELECT nextval('seq4Portfolio')
+		]]>
+	</select>
+	
+	<resultMap id="PortfolioWithAllResultSet" type="PortfolioVO">
+		<id property="id" column="p_id"/>
+		<result property="userId" column="user_id"/>
+		<result property="mainTitle" column="main_title"/>
+		<result property="mainImage" column="main_image"/>
+		<result property="mainContent" column="main_content"/>
+		<result property="videoLink" column="video_link"/>
+		<result property="regDatetime" column="reg_datetime"/>
+		<collection property="imageList" ofType="SubImageVO">
+		    <id property="id" column="si_id"/>
+			<result property="portfolioId" column="si_portfolio_id"/>
+			<result property="imageName" column="image_name"/>
+		</collection>
+		<collection property="portfolioContentList" ofType="PortfolioContentVO">
+		    <id property="id" column="pc_id"/>
+		    <result property="portfolioId" column="pc_portfolio_id"/>
+		    <result property="subTitle" column="sub_title"/>
+		    <result property="subContent" column="sub_content"/>
+		</collection>
+	</resultMap>
+</mapper>

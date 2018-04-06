@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserDAO">
+
+	<resultMap id="UserResultSet" type="UserVO">
+		<id property="id" column="id" />
+		<result property="email" column="email" />
+		<result property="password" column="password" />
+		<result property="nickname" column="nickname" />
+		<result property="mainPageId" column="main_page_id" />
+		<result property="grade" column="grade" />
+		<result property="regDatetime" column="reg_datetime" />
+		<result property="lastLoginDatetime" column="last_login_datetime" />
+	</resultMap>
+	
+	<resultMap id="UserWithPageResultSet" type="UserVO">
+		<id property="id" column="id" />
+		<result property="email" column="email" />
+		<result property="password" column="password" />
+		<result property="nickname" column="nickname" />
+		<result property="mainPageId" column="main_page_id" />
+		<result property="grade" column="grade" />
+		<result property="regDatetime" column="reg_datetime" />
+		<result property="lastLoginDatetime" column="last_login_datetime" />
+		<association property="mainPage" javaType="PageVO">
+			<id property="id" column="id" />
+			<result property="userId" column="user_id" />
+			<result property="imgName" column="img_name" />
+			<result property="mainTitle" column="main_title" />
+			<result property="mainContent" column="main_content"/>
+			<result property="subTitle" column="sub_title" />
+			<result property="subContentLeft" column="sub_content_left" />
+			<result property="subContentRight" column="sub_content_right" />
+		</association>
+	</resultMap>
+	
+	<resultMap id="UserWithPortfolioResultSet" type="UserVO">
+		<id property="id" column="u_id" />
+		<result property="email" column="email" />
+		<result property="password" column="password" />
+		<result property="nickname" column="nickname" />
+		<result property="mainPageId" column="main_page_id" />
+		<result property="grade" column="grade" />
+		<result property="regDatetime" column="reg_datetime" />
+		<result property="lastLoginDatetime" column="last_login_datetime" />
+		<collection property="portfolioList" ofType="PortfolioVO">
+		  <id property="id" column="p_id"/>
+		  <result property="userId" column="user_id"/>
+		  <result property="mainTitle" column="main_title"/>
+		  <result property="mainImage" column="main_image"/>
+		  <result property="mainContent" column="main_content"/>
+		  <result property="videoLink" column="video_link"/>
+		  <result property="regDatetime" column="reg_datetime"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 회원 가입 -->
+	<insert id="insertUser">
+		<![CDATA[
+		INSERT INTO users values (#{id}, #{email}, #{password}, #{nickname}, 0, #{mainPageId}, now(), now()) 
+		]]>
+	</insert>
+	
+	<!-- 중복확인 -->
+	<select id="checkEmail" resultType="int" >
+		<![CDATA[
+		SELECT COUNT(*) FROM users WHERE email = #{email}
+		]]>
+	</select>
+	
+	<!-- 로그인 -->
+	<select id="getUserByEmailPw" resultMap="UserResultSet">
+		<![CDATA[
+		SELECT * FROM users WHERE email = #{email} and password = #{password}
+		]]>
+	</select>
+	
+	<select id="getUserWithMainPage" parameterType="UserVO" resultMap="UserWithPageResultSet">
+		<![CDATA[
+		SELECT * FROM (SELECT * FROM users WHERE id=#{id}) AS u LEFT OUTER JOIN page ON u.main_page_id=page.id
+		]]>
+	</select>
+	
+	<select id="getUserWithPortfolio" parameterType="UserVO" resultMap="UserWithPortfolioResultSet">
+		<![CDATA[
+		SELECT *, u.id as u_id, p.id as p_id FROM (SELECT * FROM users WHERE id=#{id}) AS u LEFT OUTER JOIN portfolio AS p ON u.id=p.user_id ORDER BY p.reg_datetime desc
+		]]>
+	</select>
+	
+	<select id="getUserById" resultMap="UserResultSet">
+		<![CDATA[
+		SELECT * FROM users WHERE id = #{id}
+		]]>
+	</select>
+	
+	<select id="genId" resultType="int">
+		<![CDATA[
+		SELECT nextval('seq4User')
+		]]>
+	</select>
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PageDAO">
+
+	<resultMap id="PageResultSet" type="PageVO">
+		<id property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="imgName" column="img_name" />
+		<result property="mainTitle" column="main_title" />
+		<result property="mainContent" column="main_content" />
+		<result property="subTitle" column="sub_title" />
+		<result property="subContentLeft" column="sub_content_left" />
+		<result property="subContentRight" column="sub_content_right" />
+	</resultMap>
+
+	<insert id="insertPage" parameterType="PageVO">
+		<![CDATA[
+		INSERT INTO page values (#{id}, #{userId})
+		]]>
+	</insert>
+
+	<update id="updatePage" parameterType="PageVO">
+		<![CDATA[
+		UPDATE page SET main_title=#{mainTitle}, main_content=#{mainContent},
+			sub_title=#{subTitle}, sub_content_left=#{subContentLeft}, sub_content_right=#{subContentRight}
+			WHERE id=#{id} and user_id=#{userId}
+		]]>
+	</update>
+
+	<update id="updateImageName" parameterType="PageVO">
+		<![CDATA[
+		UPDATE page SET img_name=#{imgName} WHERE id=#{id} and user_id=#{userId}
+		]]>
+	</update>
+
+	<select id="getMainPage" parameterType="UserVO" resultMap="PageResultSet">
+		<![CDATA[
+		SELECT * FROM page WHERE id=#{mainPageId} AND user_id=#{id}
+		]]>
+	</select>
+
+	<select id="genId" resultType="int">
+		<![CDATA[
+		SELECT nextval('seq4Page')
+		]]>
+	</select>
+
+</mapper>
