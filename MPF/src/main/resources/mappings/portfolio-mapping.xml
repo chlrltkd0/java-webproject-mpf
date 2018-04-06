@@ -26,6 +26,12 @@
 		]]>
 	</update>
 	
+	<update id="updateMainImage" parameterType="PortfolioVO">
+		<![CDATA[
+		UPDATE portfolio SET main_image=#{mainImage} WHERE id=#{id} and user_id=#{userId}
+		]]>
+	</update>
+	
 	<delete id="deletePortfolio" parameterType="PortfolioVO">
 		<![CDATA[
 		DELETE FROM portfolio WHERE id=#{id} and user_id=#{userId}

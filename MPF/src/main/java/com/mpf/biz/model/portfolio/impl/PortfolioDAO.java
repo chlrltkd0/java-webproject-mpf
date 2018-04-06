@@ -33,5 +33,10 @@ public class PortfolioDAO {
 	public int savePortfolio(PortfolioVO pvo) {
 		return mybatis.update("PortfolioDAO.updatePortfolio", pvo);
 	}
+
+	public int setPortfolioImageName(PortfolioVO pvo) {
+		System.out.println(pvo);
+		return mybatis.update("PortfolioDAO.updateMainImage", pvo);
+	}
 	
 }

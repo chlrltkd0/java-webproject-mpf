@@ -43,4 +43,12 @@ public class PortfolioServiceImpl implements PortfolioService{
 		pvo = portfolioDAO.getPortfolioWithAll(pvo);
 		return pvo;
 	}
+
+	@Override
+	public boolean setPortfolioImageName(PortfolioVO pvo, String savedName) {
+		boolean result = false;
+		pvo.setMainImage(savedName);
+		result = portfolioDAO.setPortfolioImageName(pvo)==1;
+		return result;
+	}
 }

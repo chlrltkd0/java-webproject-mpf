@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mpf.biz.model.portfolio.PortfolioService;
+import com.mpf.biz.model.portfolio.PortfolioVO;
 import com.mpf.biz.model.user.UserService;
 import com.mpf.biz.model.user.UserVO;
 
@@ -23,8 +25,13 @@ public class ImageController {
 	@Resource(name="uploadPath")
 	String uploadPath;
 	
+	String uploadpfPath = "C:\\Users\\PC-22\\git\\java-webproject-mpf\\MPF\\src\\main\\webapp\\resources\\img\\portfolio";
+	
 	@Autowired
 	private UserService uService;
+	
+	@Autowired
+	private PortfolioService pService;
 	
 	@RequestMapping(value="uploadMainImage.do")
 	@ResponseBody
@@ -41,18 +48,44 @@ public class ImageController {
 				deleteTarget2.delete();
 		};
 		
-		
 		String savedName = uvo.getMainPageId()+uvo.getNickname()+System.currentTimeMillis() + ".png";
 	   
 		File createTarget = new File(uploadPath, savedName);
 		File createTarget2 = new File(realPath, savedName);
 		
-		System.out.println(realPath);
-		System.out.println(file);
-		
 		FileCopyUtils.copy(file.getBytes(), createTarget);
 		FileCopyUtils.copy(file.getBytes(), createTarget2);
 		
 		uService.setPageImageName(uvo, savedName);
+	}
+	
+	@RequestMapping(value="uploadPortfolioImage.do")
+	@ResponseBody
+	public void uploadPortfolioImage(@RequestParam("uploadimage")MultipartFile file,
+			@RequestParam("id")int id, HttpSession session) throws IOException {
+		UserVO uvo = (UserVO)session.getAttribute("user");
+		String realPath = session.getServletContext().getRealPath("/") + "resources\\img\\portfolio\\";
+
+		if(!uService.getMainPage(uvo).getImgName().equals("default.png")) {
+			File deleteTarget = new File(uploadpfPath, uService.getMainPage(uvo).getImgName());
+			File deleteTarget2 = new File(realPath, uService.getMainPage(uvo).getImgName());
+			if(deleteTarget.exists())
+				deleteTarget.delete();
+			if(deleteTarget2.exists())
+				deleteTarget2.delete();
+		};
+		
+		String savedName = uvo.getMainPageId()+uvo.getNickname()+System.currentTimeMillis() + ".png";
+	   
+		File createTarget = new File(uploadpfPath, savedName);
+		File createTarget2 = new File(realPath, savedName);
+		
+		FileCopyUtils.copy(file.getBytes(), createTarget);
+		FileCopyUtils.copy(file.getBytes(), createTarget2);
+		
+		PortfolioVO pvo = new PortfolioVO();
+		pvo.setId(id);
+		pvo.setUserId(uvo.getId());
+		pService.setPortfolioImageName(pvo, savedName);
 	}
 }

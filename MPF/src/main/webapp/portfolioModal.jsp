@@ -15,9 +15,14 @@
 	              <h2 class="text-secondary text-uppercase mb-0" id="pfTitle" contentEditable="true">pfTitle</h2>
 	              <hr class="star-dark mb-5">
 	              <div class="left-box">
-	                <img class="img-fluid mb-6" id="pfImage" src="" alt="">
+	              <c:if test="${curUser != null and user != null and curUser.id == user.id }">
+	              	<input type="file" name="uploadimage" id="pfImageInput" style="display:none">
+	                <img class="img-fluid mb-6" id="pfImageView" src="" onclick="changepfImage()" alt="">
+	              </c:if>
+	              <c:if test="${curUser == null or user == null or curUser.id != user.id }">
+	                <img class="img-fluid mb-6" id="pfImageView" src="" alt="">
+	              </c:if>
 	              </div>
-	              
 	              <div class="right-box">
 	              <pre>
 	       	        <p class="mb-5" id="pfContent" contentEditable="true" >pfContent</p>

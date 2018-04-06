@@ -77,10 +77,10 @@
 			
 			<c:if test="${curUser == null or user == null or curUser.id != user.id }">
 			  <c:if test="${curUser != null}">
-			  <img class="img-fluid mb-5 d-block mx-auto" id="imgView" src="resources/img/profile/${curUser.mainPage.imgName}" onclick="changeImage()" alt="">
+			  <img class="img-fluid mb-5 d-block mx-auto" id="imgView" src="resources/img/profile/${curUser.mainPage.imgName}" alt="">
 			  </c:if>
 			  <c:if test="${curUser == null}">
-			  <img class="img-fluid mb-5 d-block mx-auto" id="imgView" src="resources/img/profile/default.png" onclick="changeImage()" alt="">
+			  <img class="img-fluid mb-5 d-block mx-auto" id="imgView" src="resources/img/profile/default.png" alt="">
 			  </c:if>
 	          <h1 class="text-uppercase mb-0" id="mainTitle">${curUser.mainPage.mainTitle}</h1>
 	          <hr class="star-light">
@@ -254,6 +254,21 @@
 //	            $(this).slideUp(); //파일 양식 감춤
 	        }
 	    });
+   	 	
+   	 	
+   	 	$('#pfImageInput').on('change', function() {
+	        ext = $(this).val().split('.').pop().toLowerCase(); //확장자
+	        if($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+	            resetFormElement($(this)); //폼 초기화
+	            window.alert('이미지 파일이 아닙니다! (gif, png, jpg, jpeg 만 업로드 가능)');
+	        } else {
+	            file = $('#pfImageInput').prop("files")[0];
+	            blobURL = window.URL.createObjectURL(file);
+	            $('#pfImageView').attr('src', blobURL);
+	            $('#pfImageView').slideDown(); //업로드한 이미지 미리보기 
+//	            $(this).slideUp(); //파일 양식 감춤
+	        }
+	    });
    	 
    	 
 	    function savePage(){
@@ -297,6 +312,10 @@
 	    
 	    function changeImage(){
 	    	$('#mainImage').click();
+	    }
+	    
+	    function changepfImage(){
+	    	$('#pfImageInput').click();
 	    }
 	    
 	    function createPortfolio(){
@@ -361,6 +380,24 @@
 	    			console.log(error);
 	    		}
 	    	})
+	    	
+	    	if($('#pfImageInput').val()!=""){
+	    		var formData = new FormData();
+	    		formData.append('uploadimage', $('#pfImageInput')[0].files[0]);
+	    		formData.append('id', id);
+	    		$.ajax({
+		    		'url' : 'uploadPortfolioImage.do',
+		    		'type' : 'post',
+		    		'data' : formData,
+		    		'processData': false, 
+		    		'contentType': false,
+		    		'success' : function(data){
+		    		},
+		    		'error' : function(error){
+		    			console.log(error);
+		    		}
+		    	})
+	    	}
 	    }
 	    
 	    function getPortfolio(id){
@@ -374,7 +411,7 @@
 	    			if(data!=null){
 	    				$('#portfolioId').val(data.id);
 	    				$('#pfTitle').text(data.mainTitle);
-	    				$('#pfImage').attr('src', 'resources/img/portfolio/' + data.mainImage);
+	    				$('#pfImageView').attr('src', 'resources/img/portfolio/' + data.mainImage);
 	    				$('#pfContent').text(data.mainContent);
 	    				$('#video').attr('src', data.videoLink);
 	    				$('#videolink').val(data.videoLink);

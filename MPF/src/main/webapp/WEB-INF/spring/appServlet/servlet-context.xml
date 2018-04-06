@@ -26,7 +26,7 @@
 	<!-- String uploadPath = new String("업로드 경로") -->
 	<beans:bean id="uploadPath" class="java.lang.String">
 	    <!-- 파일업로드 디렉토리-->
-	    <beans:constructor-arg value="C:\Web_Java\Tomcat\eclipse\workspace\MPF\src\main\webapp\resources\img"/>
+	    <beans:constructor-arg value="C:\Users\PC-22\git\java-webproject-mpf\MPF\src\main\webapp\resources\img\profile"/>
 	</beans:bean>
 
 	<context:component-scan base-package="com.mpf" />
