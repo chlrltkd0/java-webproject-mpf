@@ -12,7 +12,12 @@
 	        <div class="container text-center">
 	          <div class="row">
 	            <div class="col-lg-12">
-	              <h2 class="text-secondary text-uppercase mb-0" id="pfTitle" contentEditable="true">pfTitle</h2>
+	              <c:if test="${curUser != null and user != null and curUser.id == user.id }">
+	       	        <h2 class="text-secondary text-uppercase mb-0" id="pfTitle" contentEditable="true">pfTitle</h2>
+	       	      </c:if>
+	       	      <c:if test="${curUser == null or user == null or curUser.id != user.id }">
+	       	        <h2 class="text-secondary text-uppercase mb-0" id="pfTitle">pfTitle</h2>
+	       	      </c:if>
 	              <hr class="star-dark mb-5">
 	              <div class="left-box">
 	              <c:if test="${curUser != null and user != null and curUser.id == user.id }">
@@ -25,7 +30,12 @@
 	              </div>
 	              <div class="right-box">
 	              <pre>
-	       	        <p class="mb-5" id="pfContent" contentEditable="true" >pfContent</p>
+	              	<c:if test="${curUser != null and user != null and curUser.id == user.id }">
+	       	          <div class="mb-5" id="pfContent" contentEditable="true" >pfContent</div>
+	       	        </c:if>
+	       	        <c:if test="${curUser == null or user == null or curUser.id != user.id }">
+	       	          <div class="mb-5" id="pfContent">pfContent</div>
+	       	        </c:if>
 	       	      </pre>
 	              </div>
 	              <div class="bottom-box">
@@ -33,8 +43,7 @@
 				<div class="row">
 				  <div class="col-2">
 				    <div class="list-group" id="list-tab" role="tablist">
-				      <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">설명</a>
-				      <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">동영상</a>
+				      <a class="list-group-item list-group-item-action active" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">동영상</a>
 				      <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">사진</a>
 				      <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">환경</a>
 				      <div class="row">
@@ -49,20 +58,19 @@
 				  </div>
 				  <div class="col-10">
 				    <div class="tab-content" id="nav-tabContent">
-				      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list" contentEditable="true">
-				      asdasdasdasdasd시발시발시발롬
-					  </div>
-				      <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+				      <div class="tab-pane fade show active" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
 				      	<iframe width="640" height="360" id="video" src="null" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 				      	<br>
-				      	<div class="row">
-				      	  <div class="col-2 mx-auto">
-				      	  	<label for="videolink">링크</label>
-				      	  </div>
-				      	  <div class="col-8 mx-auto">
-				      	  	<input type="text" id="videolink" value="" class="form-control"/>
-				      	  </div>
-				      	</div>
+				      	<c:if test="${curUser != null and user != null and curUser.id == user.id }">
+					      	<div class="row">
+					      	  <div class="col-2 mx-auto">
+					      	  	<label for="videolink">링크</label>
+					      	  </div>
+					      	  <div class="col-8 mx-auto">
+					      	  	<input type="text" id="videolink" value="" class="form-control"/>
+					      	  </div>
+					      	</div>
+				      	</c:if>
 				      </div>
 				      
 				      <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>

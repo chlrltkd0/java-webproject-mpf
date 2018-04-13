@@ -69,6 +69,9 @@ public class UserServiceImpl implements UserService {
 	public boolean savePage(PageVO pvo, UserVO uvo) {
 		pvo.setUserId(uvo.getId());
 		pvo.setId(uvo.getMainPageId());
+		pvo.getMainContent().replaceAll("\n", "<br>");
+		pvo.getMainTitle().replace("\n", "<br>");
+		System.out.println(pvo);
 		return pageDAO.updatePage(pvo)==1;
 	}
 

@@ -135,25 +135,21 @@
 	        <div class="row">
 	          <c:if test="${curUser != null and user != null and curUser.id == user.id }">
 			    <div class="col-lg-4 ml-auto" id="subContentLeft" contentEditable="true">
-	              <p class="lead" >${curUser.mainPage.subContentLeft}</p>
+	              ${curUser.mainPage.subContentLeft}
 	            </div>
 	            <div class="col-lg-4 mr-auto" id="subContentRight" contentEditable="true">
-	              <p class="lead">${curUser.mainPage.subContentRight}</p>
+	              ${curUser.mainPage.subContentRight}
 	            </div>
 			  </c:if>
 			  <c:if test="${curUser == null or user == null or curUser.id != user.id }">
-			    <div class="col-lg-4 ml-auto" id="subContentLeft">
-	              <p class="lead" >${curUser.mainPage.subContentLeft}</p>
-	            </div>
-	            <div class="col-lg-4 mr-auto" id="subContentRight">
-	              <p class="lead">${curUser.mainPage.subContentRight}</p>
-	            </div>
+			    <div class="col-lg-4 ml-auto" id="subContentLeft">${curUser.mainPage.subContentLeft}</div>
+	            <div class="col-lg-4 mr-auto" id="subContentRight">${curUser.mainPage.subContentRight}</div>
 			  </c:if>
 	        </div>
+	        <%@ include file="resumeModal.jsp" %>
 	        <div class="text-center mt-4">
-	          <a class="btn btn-xl btn-outline-light" href="#">
-	            <i class="fa fa-download mr-2"></i>
-	            이력서 보기!
+	          <a class="portfolio-item btn btn-xl btn-outline-light" href="#resumeModal">
+	            <i class="fa fa-download mr-2"></i> 이력서 보기!
 	          </a>
 	        </div>
 	      </div>
